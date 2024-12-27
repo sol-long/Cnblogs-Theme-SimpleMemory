@@ -1,9 +1,9 @@
 # 更新历史
 
-# 2024.12.31 - v2.1.7
+## 2024.12.31 - v2.1.7
 * 博客园评论排序兼容及样式调整 [(#457)](https://github.com/BNDong/Cnblogs-Theme-SimpleMemory/pull/457)
 
-# 2024.12.09 - v2.1.6
+## 2024.12.09 - v2.1.6
 * 修复侧边栏VIP样式异常 [(#444)](https://github.com/BNDong/Cnblogs-Theme-SimpleMemory/pull/444)
 * font-family顺序调整 [(#449)](https://github.com/BNDong/Cnblogs-Theme-SimpleMemory/pull/449)
 * 兼容博客园favicon更新 [(#453)](https://github.com/BNDong/Cnblogs-Theme-SimpleMemory/pull/453)
