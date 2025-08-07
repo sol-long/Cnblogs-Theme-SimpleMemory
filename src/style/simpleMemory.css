@@ -974,6 +974,11 @@ div#tbCommentBodyPreview {
     margin-bottom: 10px;
 }
 
+.comment-sort {
+  align-items: center !important;
+  margin-top: 20px;
+}
+
 .commenttb {
     padding: 8px;
     margin-bottom: 10px;
