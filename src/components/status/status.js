@@ -10,7 +10,7 @@ export default function main() {
     let status = {};
 
     // 提取url信息
-    status.url = window.location.href;
+    status.url = window.location.href.split('#')[0];
     const urlArr = status.url.split("/");
 
     if (urlArr[urlArr.length -1] === '') {
