@@ -14,56 +14,79 @@ export default function main(_) {
     let postBody = $('#cnblogs_post_body');
     let header   = postBody.find(':header');
 
-    if (header.length > 0) {
-        let tagList = [];
-
-        // 获取标题处理
-        $.each(header, function () {
-            tagList.push(parseInt($(this)[0].tagName.replace(/H/g, '')));
+    if (header.length) {
+        const tagList = header.map((index, element) => parseInt(element.tagName.replace(/H/g, ''))).get();
+        const uniqueTags = [...new Set(tagList)].sort();
+        
+        // 用于跟踪各级标题的编号
+        const counters = {};
+        uniqueTags.forEach(level => {
+            counters[level] = 0;
         });
 
-        // 标题级别
-        let uniqTagList = uniq(tagList).sort();
+        const html = header
+            .map((index, element) => {
+                const obj = $(element);
+                const h = parseInt(obj[0].tagName.replace(/H/g, ''));
+                // 不处理 h6 级别标题
+                if (h === 6) return true;
+                let hid = obj.attr('id');
+                const titleId = `tid-${_.__tools.randomString(6)}`;
+                obj.attr('tid', titleId);
+                if (!hid || /^[\W|\d]+.*/.test(hid)) {
+                    if (hid) {
+                        const tocObj = $(`.toc a[href="#${hid}"]`);
+                        tocObj.length && tocObj.attr('href', `#${titleId}`);
+                    }
+                    hid = titleId;
+                    obj.attr('id', hid);
+                }
 
-        // 处理标题
-        let html = '';
-        $.each(header, function () {
-            let obj = $(this);
-            let h = parseInt(obj[0].tagName.replace(/H/g, ''));
-
-            // 不处理 h6 级别标题
-            if (h === 6) return true;
-
-            // 设置标题标识
-            let hid = obj.attr('id');
-            let titleId = 'tid-' + _.__tools.randomString(6);
-            obj.attr('tid', titleId);
-            obj.attr('id', titleId);
-            let tocObj = $('.toc a[href="#'+hid+'"]');
-            tocObj.length && tocObj.attr('href', '#' + titleId);
-
-            // 添加标题
-            let num = uniqTagList.indexOf(h);
-            let str = num === 0 || num === -1 ? '' : '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(num);
-            let text =  str + obj.text().replace(/</g, "&lt;").replace(/>/g, "&gt;")
-            html += '<li class="nav-item"><a class="nav-link" href="#' + titleId + '" goto="' + titleId + '" onclick="return false;">' + text + '</a></li>';
-        });
+                const num = uniqueTags.indexOf(h);
+                const str = num === 0 || num === -1 ? '' : '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(num);
+                
+                let numberPrefix = '';
+                if (_.__config.articleDirectory.number) {
+                    // 当前级别计数器加1
+                    counters[h]++;
+                    
+                    // 重置更低级别的计数器
+                    uniqueTags.forEach(level => {
+                        if (level > h) {
+                            counters[level] = 0;
+                        }
+                    });
+                    
+                    // 生成编号
+                    const numberParts = [];
+                    uniqueTags.forEach(level => {
+                        if (level <= h && counters[level] > 0) {
+                            numberParts.push(counters[level]);
+                        }
+                    });
+                    
+                    if (numberParts.length > 0) {
+                        numberPrefix = numberParts.join('.') + '. ';
+                    }
+                }
+                
+                const text = str + numberPrefix + obj.text().replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return `<li class="nav-item"><a class="nav-link" href="#${hid}" goto="${titleId}" onclick="return false;">${text}</a></li>`;
+            })
+            .get()
+            .join('');
 
         let dirHtml = _.__tools.tempReplacement(articleDirectoryTemp, 'dirHtml', html);
 
-        body.append(dirHtml);
+        postBody.append(dirHtml);
 
         // 锚点监听
-        postBody.attr('data-bs-spy', 'scroll');
-        postBody.attr('data-bs-target', '#articleDirectory');
-        postBody.attr('data-bs-offset', '0');
-        postBody.attr('tabindex', '0');
+        body.attr('data-bs-spy', 'scroll');
+        body.attr('data-bs-target', '#articleDirectory');
+        body.attr('data-bs-offset', '0');
+        body.attr('tabindex', '0');
+        body.scrollspy({ target: '#articleDirectory' });
 
-        const scrollSpy = new bootstrap.ScrollSpy($('#cnblogs_post_body'), {
-            target: '#articleDirectory'
-        });
-
-        // console.log(scrollSpy);
 
         // 判断是否显示横向滚动条
         if (!_.__config.articleDirectory.autoWidthScroll) {
@@ -72,20 +95,16 @@ export default function main(_) {
         }
 
         // 滚动监听
+        const articleDirectory = $('#articleDirectory');
         _.__event.scroll.handle.push(() => {
-            let articleDirectory = $('#articleDirectory');
-
-            if (_.__event.scroll.temScroll < _.__event.scroll.docScroll) { // 向下滚动
-
-                if (_.__event.scroll.homeScroll <= _.__event.scroll.docScroll) { // 滚过头图
-                    articleDirectory.addClass('articleDirectoryFixed');
-                }
-
-            } else { // 向上滚动
-
-                if (_.__event.scroll.homeScroll >= _.__event.scroll.docScroll) { // 滚入头图
-                    articleDirectory.removeClass('articleDirectoryFixed');
-                }
+            const { temScroll, docScroll, homeScroll } = _.__event.scroll;
+            const isScrollingDown = temScroll < docScroll;
+            const isPassedHeader = homeScroll <= docScroll;
+            
+            if (isScrollingDown && isPassedHeader) {
+                articleDirectory.addClass('articleDirectoryFixed');
+            } else if (!isScrollingDown && !isPassedHeader) {
+                articleDirectory.removeClass('articleDirectoryFixed');
             }
         });
 
@@ -96,7 +115,6 @@ export default function main(_) {
             if (articleDirectory.length > 0) {
                 let mainContentWidth = $('#home').outerWidth(false),
                     listWidth        = articleDirectory.outerWidth(true);
-                // listWidth = listWidth > 220 ? listWidth : 242;
                 let bothWidth        = (bodyWidth - mainContentWidth) / 2,
                     rightPx          = bothWidth - listWidth - 5,
                     sideToolbarTop   = $('.main-header').outerHeight();
@@ -132,14 +150,5 @@ export default function main(_) {
             let titleH = $(':header[tid="' + $(this).attr('goto') + '"]');
             titleH.length && _.__tools.actScroll(titleH.offset().top + 3, 500);
         });
-    }
-
-    /**
-     * 数组去重
-     * @param array
-     * @returns {[]}
-     */
-    function uniq(array){
-         return [...new Set(array)];
     }
 }
