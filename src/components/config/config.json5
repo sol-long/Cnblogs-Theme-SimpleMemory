@@ -263,7 +263,8 @@
   articleDirectory: {
     position: 'right',
     minBodyWeight: 900,
-    autoWidthScroll: false
+    autoWidthScroll: false,
+    number: false, 
   },
   // -- 文章评论 --
   articleComment: {
