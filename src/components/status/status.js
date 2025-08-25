@@ -36,6 +36,10 @@ export default function main() {
             status.pageType = 'books'; // 当前页面为书单页
         } else if ($('#linkListFlg').length) {
             status.pageType = 'links'; // 当前页面为友链页
+        } else if (par4 === 'category') {
+            status.pageType = 'category'; // 当前页面为分类页
+        } else if (par4 === 'tag') {
+            status.pageType = 'tag'; // 当前页面为标签页
         } else if (par4 && par5 && par4 === 'gallery' && par5 === 'image') {
             status.pageType = 'galleryImage'; // 当前页面为相册图片详情页
         } else if (par4 && par5 && par4 === 'gallery' && par5 !== 'image') {

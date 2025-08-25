@@ -39,16 +39,16 @@ export default function main(_) {
         }, 1000 );
 
         function postMetaHtml(postDescText) {
-            let info = postMeta(postDescText);
+            const { date, vnum, cnum, tnum } = postMeta(postDescText);
             let textNum = $('#cnblogs_post_body').text().length;
 
-            return '<span class="postMeta"><i class="simple-memory-iconfont simple-memory-icon-time1"></i>' + info.date + '' +
-                '<i class="simple-memory-iconfont simple-memory-icon-browse"></i>' + info.vnum + '' +
-                '<i class="simple-memory-iconfont simple-memory-icon-interactive"></i>' + info.cnum + '' +
-                '<i class="simple-memory-iconfont simple-memory-icon-hot"></i>' + info.tnum + '' +
-                '<br><i class="simple-memory-iconfont simple-memory-icon-wenzi4"></i>' + textNum + '' +
-                '<i class="simple-memory-iconfont simple-memory-icon-shangwutubiao-"></i>' + _.__tools.minToTime(textNum / 500) + ' ~ ' + _.__tools.minToTime(textNum / 300) +
-                '</span>';
+            return `<span class="postMeta">
+            <i class="simple-memory-iconfont simple-memory-icon-time1"></i>${date}
+            <i class="simple-memory-iconfont simple-memory-icon-browse"></i>${vnum}
+            <i class="simple-memory-iconfont simple-memory-icon-interactive"></i>${cnum}
+            <i class="simple-memory-iconfont simple-memory-icon-hot"></i>${tnum}<br>
+            <i class="simple-memory-iconfont simple-memory-icon-wenzi4"></i>${textNum}
+            <i class="simple-memory-iconfont simple-memory-icon-shangwutubiao-"></i>${_.__tools.minToTime(textNum / 500)} ~ ${_.__tools.minToTime(textNum / 300)}</span>`;
         }
     })();
 

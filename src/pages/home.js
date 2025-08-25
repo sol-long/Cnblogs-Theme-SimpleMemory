@@ -124,12 +124,13 @@ export default function main(_) {
         });
 
         function postMetaHtml(postDescText) {
-            let info = postMeta(postDescText);
-            return '<span class="postMeta"><i class="simple-memory-iconfont simple-memory-icon-time1"></i>发表于 ' + info.date + '' +
-                '<i class="simple-memory-iconfont simple-memory-icon-browse"></i>阅读：' + info.vnum + '' +
-                '<i class="simple-memory-iconfont simple-memory-icon-interactive"></i>评论：' + info.cnum + '' +
-                '<i class="simple-memory-iconfont simple-memory-icon-hot"></i>推荐：' + info.tnum + '' +
-                '</span>';
+            const { date, vnum, cnum, tnum } = postMeta(postDescText);
+            return `<span class="postMeta">
+                <i class="simple-memory-iconfont simple-memory-icon-time1"></i>发表于 ${date}
+                <i class="simple-memory-iconfont simple-memory-icon-browse"></i>阅读：${vnum}
+                <i class="simple-memory-iconfont simple-memory-icon-interactive"></i>评论：${cnum}
+                <i class="simple-memory-iconfont simple-memory-icon-hot"></i>推荐：${tnum}
+            </span>`;
         }
     })();
 
