@@ -6,7 +6,6 @@
  * @describe: 分类页处理
  */
 import consoleText from "../vendor/consoleText/consoleText";
-import postMeta from "../components/postMeta/postMeta";
 
 export default function main(_) {
 
