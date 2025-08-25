@@ -1285,7 +1285,7 @@ window.cnblogsConfig = {
     },
 }
 ```
-### number - 文章目录标题编号 <Badge type="tip" text="v2.1.8" />
+### number - 文章目录标题编号 <Badge type="tip" text="v2.1.7" />
 
 * 类型：`Boolean`
 * 默认值：`false`
