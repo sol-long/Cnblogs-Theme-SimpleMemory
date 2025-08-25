@@ -594,8 +594,8 @@ window.cnblogsConfig = {
     enable: false,
     cdn: {
         aplayer: 'https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js',
-        aplayercss: 'https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-y/aplayer/1.10.1/APlayer.min.css',
-        meting: 'https://cdn.staticfile.org/meting/2.0.1/Meting.min.js'
+        aplayercss: 'https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css',
+        meting: 'https://cdn.staticfile.org/meting/2.0.1/Meting.min.js',  
     },
     options: {
         id: '3778678',
@@ -1282,6 +1282,20 @@ window.cnblogsConfig = {
 window.cnblogsConfig = {
     articleDirectory: {
         autoWidthScroll: true,
+    },
+}
+```
+### number - 文章目录标题编号 <Badge type="tip" text="v2.1.8" />
+
+* 类型：`Boolean`
+* 默认值：`false`
+
+文章目录中标题是否显示编号。
+
+```javascript
+window.cnblogsConfig = {
+    articleDirectory: {
+         number: false,
     },
 }
 ```
