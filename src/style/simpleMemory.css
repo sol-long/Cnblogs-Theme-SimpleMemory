@@ -13,6 +13,10 @@ iframe {
     background: #6fa3ef;
 }
 
+#sidebar_news_content {
+    display: none;
+}
+
 #blogTitle h1 a:hover,
 .dayTitle a,
 a,
