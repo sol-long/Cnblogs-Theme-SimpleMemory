@@ -47,12 +47,12 @@ export default function main(words, id, conId, colors, isCycle, callback) {
               waiting = false;
             }, 1000);
         } else if (waiting === false) {
-            let ih = words[0].substring(0, letterCount);
-            if (!isCycle && ih === words[0]) {
+            target.innerHTML = words[0].substring(0, letterCount);
+            letterCount += x;
+            
+            // 在非循环模式下，当完整显示字符串后停止
+            if (!isCycle && letterCount > words[0].length) {
                 window.clearInterval(conTId);
-            } else {
-                target.innerHTML = words[0].substring(0, letterCount);
-                letterCount += x;
             }
         }
 
