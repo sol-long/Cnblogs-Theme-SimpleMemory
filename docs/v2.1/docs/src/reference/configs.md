@@ -152,7 +152,7 @@ window.cnblogsConfig = {
                 ['我的博客4', 'https://www.cnblogs.com/bndong/'],
                 ['我的博客5', 'https://www.cnblogs.com/bndong/'],
             ],
-            "icon": "icon-brush_fill" // 配置图标，参考文档：字体图标
+            "icon": "simple-memory-icon-brush_fill" // 配置图标，参考文档：字体图标
         },
         "title2": { // 标题
             "data": [ // 列表数据 ['列表', '链接']
@@ -162,7 +162,7 @@ window.cnblogsConfig = {
                 ['我的博客9', 'https://www.cnblogs.com/bndong/'],
                 ['我的博客10', 'https://www.cnblogs.com/bndong/'],
             ],
-            "icon": "icon-brush_fill" // 配置图标，参考文档：字体图标
+            "icon": "simple-memory-icon-brush_fill" // 配置图标，参考文档：字体图标
         },
     },
   },
